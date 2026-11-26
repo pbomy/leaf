@@ -48,7 +48,7 @@ pytest
 Un fichier `params.py` est un simple script Python définissant des variables :
 
 ```python
-solver_name = "Koch 2D"  # solver à utiliser
+solver_name = "Koch 2D" | "Koch 3D"  # solver à utiliser
 
 # Géométrie du réseau de lames (ReseauLames)
 d = 2e-3       # Epaisseur des lames en m
@@ -67,7 +67,7 @@ N_y = 0          # Mode transverse bornant la recherche
 M = 0.3          # Nombre de Mach
 ```
 
-Un exemple complet est fourni dans `examples/params_koch2d.py`.
+Un exemple complet est fourni dans `examples/params_koch.py`.
 
 ## Arborescence
 
@@ -78,6 +78,7 @@ src/
 │   ├── core/             # socle commun : BaseSolver, modeles de donnees (ne depend de personne)
 │   └── solvers/          # un dossier par solver (params.py + solvers.py)
 ├── io/                   # chargement des params, sauvegarde des resultats
+├── utils/                # Contient des fonctions utiles pour tous les modules du logiciel
 ├── cli.py                # point d'entree ligne de commande (mince : parse et delegue)
 └── app.py                # orchestration : charge params -> lance solver -> sauvegarde
 ```
@@ -92,4 +93,4 @@ src/
 4. L'importer dans `src/parker/solvers/__init__.py` pour l'enregistrer
 
 Règle d'architecture : les dépendances ne vont que dans un sens
-(`core` <- `solvers` <- `io`/`app`/`cli`).
+(`core`/`utils` <- `solvers` <- `io`/`app`/`cli`).

@@ -1,5 +1,5 @@
 """
-Exemple de fichier de paramètres pour le solver Koch 2D.
+Exemple de fichier de paramètres pour le solver Koch.
 
 Chaque variable correspond :
 - soit à un champ de ``ReseauLames`` (géométrie du réseau de lames) ;
@@ -8,7 +8,7 @@ Chaque variable correspond :
 
 Lancer le calcul avec :
 
-    python -m src.cli --params examples/params_koch2d.py --output resultats.json
+    python -m src.cli --params examples/params_koch.py --output resultats.json
 """
 
 # ------------ Choix du solver ------------
