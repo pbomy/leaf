@@ -45,8 +45,8 @@ def test_parametres_pris_en_compte():
     """Les paramètres numériques sont bien lus depuis self.params (et non les défauts)."""
     _, reseau, params = load_params_class("tests/params.py")
 
-    params.N_discret_x = 30
-    params.N_sumsize = 20
+    params.N_discret_x = 30 # type: ignore
+    params.N_sumsize = 20 # type: ignore
 
     solver = SolverKoch2D(reseau, params)
     sol = solver.run()
