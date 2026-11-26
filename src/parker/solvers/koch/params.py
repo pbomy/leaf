@@ -1,5 +1,5 @@
 """
-Paramètres numériques du solver Koch 2D.
+Paramètres numériques du solver Koch
 
 Ces paramètres complètent les dimensions du réseau (``ReseauLames``) : ils ne
 dépendent que de la méthode numérique, pas de la géométrie.
