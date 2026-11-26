@@ -1,0 +1,1 @@
+c_0 = 340       # Vitesse du son dans l'air en m/s
