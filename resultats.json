@@ -1,0 +1,31 @@
+{
+  "solver": "Koch 2D",
+  "date": "2026-11-26T16:01:41",
+  "resultats": {
+    "valeurs": {
+      "Fréquence (0, 0)": 1995.4930152104946,
+      "Nombre de Strouhal": 0.20497062463764465,
+      "Vitesse d'écoulement (km/h)": 140.19130531426242
+    },
+    "metadonnees": {
+      "Temps de résolution": "5.189419 s"
+    }
+  },
+  "reseau": {
+    "d": 0.004,
+    "b": 0.06,
+    "L": 0.5,
+    "N": 5,
+    "s": 0.06,
+    "chi": 30
+  },
+  "params_numeriques": {
+    "N_matrice": 2,
+    "N_discret_x": 200,
+    "N_sumsize": 50,
+    "N_x": 0,
+    "N_y": 0,
+    "N_z": 0,
+    "M": 0
+  }
+}

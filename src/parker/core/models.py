@@ -6,7 +6,7 @@ Règle d'architecture : ce module ne dépend d'aucun autre module du projet.
 """
 
 from dataclasses import dataclass, field
-from math import isfinite
+from math import pi
 
 
 @dataclass
@@ -14,14 +14,14 @@ class ReseauLames:
     """
     Classe décrivant les dimensions d'un réseau de lames.
 
-    Toutes les longueurs sont en mètres, l'angle de décalage est en radians.
+    Toutes les longueurs sont en mètres, l'angle de décalage est en degrés.
     """
     d: float = 0     # Epaisseur des lames en m
     b: float = 0     # Largeur (corde) des lames en m
     L: float = 0     # Envergure (longueur) des lames en m
     N: int = 0       # Nombre de lames
     s: float = 0     # Espacement entre les lames en m
-    chi: float = 0   # Angle de décalage des lames en radians
+    chi: float = 0   # Angle de décalage des lames en degrés
 
     def valider(self) -> None:
         """

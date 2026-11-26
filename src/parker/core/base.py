@@ -38,7 +38,7 @@ class BaseSolver(ABC):
         params : paramètres numériques propres au solver
         logger : logger optionnel (un logger par défaut est créé sinon)
         """
-        self.reseau = reseau
+        self.reseau = reseau # type: ignore
         self.params = params
         self.logger = logger or logging.getLogger(__name__)
 

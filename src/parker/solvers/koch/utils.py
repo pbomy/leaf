@@ -270,19 +270,21 @@ def _build_matrix_ratio(N_size, l_star, f_star, alpha0, M, sigma0, Niter):
 
 # ---------------- Résolution par optimisation du déterminant ----------------
 
-def koch2D_solver(N_x, N_y, b, s, chi, M, N_matrix, Niter, N_sumsize):
+def koch2D_solver(N_x, N_y, b, s, chi, M, N_matrix, Niter, N_sumsize, bidim = True, N_z = 0):
     """
     Résout la fréquence de Parker en 2D par la méthode de Koch.
 
     Paramètres
     ----------
-    N_x : index du minimum local du déterminant retenu
-    N_y : mode transverse utilisé pour borner la recherche
+    N_x : nombre de noeuds dans la direction x (sens de l'écoulement)
+    N_y : nombre de noeuds dans la direction transverse y
     b, s, chi : largeur des lames (m), espacement (m), angle de décalage (rad)
     M : nombre de Mach
     N_matrix : taille de la troncature du système de Wiener-Hopf
     Niter : nombre de points du maillage en K* pour la détection des minima
     N_sumsize : nombre de termes des produits infinis tronqués
+    bidim : True si le solver est utilisé pour un mode 2D afin d'adapter le message d'erreur
+    N_z : nombre de noeuds de pression dans la direction de l'envergure z (utilisé uniquement si bidim=False et qu'aucun mode n'est calculable)
 
     Retour
     ------
@@ -312,6 +314,12 @@ def koch2D_solver(N_x, N_y, b, s, chi, M, N_matrix, Niter, N_sumsize):
 
     indices_mins = X[argrelmin(Y)]
 
+    if len(indices_mins) <= N_x:
+        if bidim:
+            raise ValueError(f"Le présent réseau de lames n'admet pas de mode ({N_x}, {N_y})")
+        else:
+            raise ValueError(f"Le présent réseau de lames n'admet pas de mode ({N_x}, {N_y}, {N_z})")
+
     # Affinage : resserrer les bornes autour du N_x-ième minimum local (à 5 % près)
     if indices_mins[N_x] * 0.95 < min_bounds[0]:
         bound_low = min_bounds[0]
@@ -329,3 +337,29 @@ def koch2D_solver(N_x, N_y, b, s, chi, M, N_matrix, Niter, N_sumsize):
     root = minimize_scalar(det_equations, bounds=new_bounds, method='bounded')
 
     return root.x * c_0 / s  # type: ignore
+
+def koch3D_solver(N_x, N_y, N_z, b, L, s, chi, M, N_matrix, Niter, N_sumsize):
+    """
+    Résout la fréquence de Parker en 3D par la méthode de Koch.
+
+    Paramètres
+    ----------
+    N_x : nombre de noeuds de pression dans la direction x (sens de l'écoulement)
+    N_y : nombre de noeuds de pression dans la direction transverse y
+    N_z : nombre de noeuds de pression dans la direction de l'envergure z
+    b, L, s, chi : largeur des lames (m), envergure des lames (m), espacement (m), angle de décalage (rad)
+    M : nombre de Mach
+    N_matrix : taille de la troncature du système de Wiener-Hopf
+    Niter : nombre de points du maillage en K* pour la détection des minima
+    N_sumsize : nombre de termes des produits infinis tronqués
+
+    Retour
+    ------
+    Fréquence de Parker (en Hz).
+    """
+    f_xy = koch2D_solver(N_x, N_y, b, s, chi, M, N_matrix, Niter, N_sumsize, bidim=False, N_z=N_z)    # Fréquence dans le plan XY
+    f_yz = koch2D_solver(N_z, N_y, L, s, 0, 0, N_matrix, Niter, N_sumsize, bidim=False, N_z=N_z)      # Fréquence dans le plan YZ (dans ce plan, chi=0 et M=0)
+
+    f_y  = np.pi * N_y / s      # Fréquence dans la direction y
+
+    return (f_xy**2 + f_yz**2 - f_y**2)**0.5 
