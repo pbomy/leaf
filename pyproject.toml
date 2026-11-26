@@ -3,12 +3,13 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mon-logiciel"
+name = "leaf"
 version = "0.1.0"
 description = "Logiciel de calcul numerique base sur une architecture de solvers"
 requires-python = ">=3.10"
 dependencies = [
     "numpy>=1.24",
+    "scipy>=1.10",
 ]
 
 [project.optional-dependencies]
@@ -17,10 +18,11 @@ dev = [
 ]
 
 [project.scripts]
-mon_logiciel = "mon_logiciel.cli:main"
+leaf = "src.cli:main"
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
+include = ["src*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
